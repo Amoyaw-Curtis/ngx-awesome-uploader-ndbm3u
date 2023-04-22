@@ -1,0 +1,59 @@
+<div class="uploader-wrapper">
+  <ngx-awesome-uploader
+    #uploader
+    [adapter]="adapter"
+    [fileMaxCount]="3"
+    [fileMaxSize]="700"
+    [uploadType]="'multi'"
+    [enableCropper]="true"
+    [cropperOptions]="cropperOptions"
+    (validationError)="onValidationError($event)"
+    [fileExtensions]="['pdf', 'jpg', 'jpeg', 'png', 'mp4', 'css']"
+    (uploadSuccess)="onUploadSuccess($event)"
+    (removeSuccess)="onRemoveSuccess($event)"
+    (fileAdded)="onFileAdded($event)"
+    [itemTemplate]="myItemTemplate"
+    [customValidator]="myCustomValidator"
+    [enableAutoUpload]="true" 
+    [captions]="captions"
+    [accept]="'.jpg, .png, .mp4'"
+  >
+    <div class="dropzoneTemplate">
+      <p style="text-align: center">My Custom Template here</p>
+      <p></p>
+    </div>
+  </ngx-awesome-uploader>
+  <ng-template
+    #myItemTemplate
+    let-fileItem="fileItem"
+    let-uploadProgress="uploadProgress"
+  >
+ 
+    <img *ngIf="imgSrc" [src]="imgSrc[fileItem.fileName]" alt="preview">
+    <p>File Size: {{ fileItem.file.size }}</p>
+    <p>File Name: {{ fileItem.fileName }}</p>
+    <p>Upload Progress: {{ uploadProgress }} %</p>
+    <button (click)="uploader.removeFile(fileItem)">Remove</button>
+    <button
+      #rotateButtons
+      (click)="rotateFile(fileItem, $event)"
+      id="rotateSourceImage"
+      type="button"
+      class="btn btn-xs btn-default"
+      title="Rotate file"
+      >
+        Rotate
+    </button>
+  </ng-template>
+  <!-- <button
+  #rotateButtons
+  id="rotateSourceImage"
+  type="button"
+  class="btn btn-xs btn-default"
+  title="Rotate file"
+  >
+    Rotate
+ </button> -->
+ </div>
+
+ <button (click)="uploadFiles()" >Upload</button>
